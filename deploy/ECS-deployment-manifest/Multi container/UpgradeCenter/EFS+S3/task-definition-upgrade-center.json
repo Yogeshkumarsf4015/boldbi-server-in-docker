@@ -1,0 +1,248 @@
+{
+  "family": "bold-upgrade-center",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "cpu": "512",
+  "memory": "1024",
+  "taskRoleArn": "<upgrade-center-task-role-arn>",
+  "executionRoleArn": "<upgrade-center-execution-role-arn>",
+  "volumes": [
+    {
+      "name": "upgrade-center-data",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "<existing-efs-file-system-id>",
+        "rootDirectory": "/",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "<upgrade-center-efs-access-point-id>",
+          "iam": "ENABLED"
+        }
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "bold-upgrade-center",
+      "image": "<image-built-from-updated-upgrade-center-source>",
+      "essential": true,
+      "portMappings": [
+        {
+          "name": "upgrade-center",
+          "containerPort": 8080,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "environment": [
+        {
+          "name": "ASPNETCORE_URLS",
+          "value": "http://+:8080"
+        },
+        {
+          "name": "ASPNETCORE_ENVIRONMENT",
+          "value": "Production"
+        },
+        {
+          "name": "UpgradeCenter__ExecutionEnvironment",
+          "value": "ECS"
+        },
+        {
+          "name": "UpgradeCenter__IntegrationMode",
+          "value": "Standalone"
+        },
+        {
+          "name": "UpgradeCenter__DeploymentMode",
+          "value": "BoldBI"
+        },
+        {
+          "name": "UpgradeCenter__BiReleaseVersionsApiUrl",
+          "value": "https://releases.boldbi.com/version/json"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Region",
+          "value": "<aws-region>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Cluster",
+          "value": "<ecs-cluster-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__RunnerTaskDefinition",
+          "value": "<playwright-task-definition-family>:<revision>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__RunnerContainer",
+          "value": "playwright"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Subnets__0",
+          "value": "<private-subnet-id>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__SecurityGroups__0",
+          "value": "<validation-security-group-id>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__UploadBaseUrl",
+          "value": "https://<application-domain>/upgrade-center"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__MaintenanceWindowConfirmed",
+          "value": "false"
+        },
+        {
+          "name": "UpgradeCenter__Kubernetes__AllowedImageRegistryHosts__0",
+          "value": "docker.io"
+        },
+        {
+          "name": "UpgradeCenter__Kubernetes__AllowedImageRegistryHosts__1",
+          "value": "us-docker.pkg.dev"
+        },
+        {
+          "name": "UpgradeCenter__Kubernetes__AllowedImageRepositories__0",
+          "value": "syncfusion"
+        },
+        {
+          "name": "UpgradeCenter__Kubernetes__AllowedImageRepositories__1",
+          "value": "boldbi-294612/boldbi"
+        },
+        {
+          "name": "BOLD_SERVICES_PV_USED",
+          "value": "true"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__id-ums-deployment__Service",
+          "value": "<idp-ums-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__id-ums-deployment__Container",
+          "value": "<idp-ums-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__id-api-deployment__Service",
+          "value": "<id-api-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__id-api-deployment__Container",
+          "value": "<id-api-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__id-web-deployment__Service",
+          "value": "<idp-web-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__id-web-deployment__Container",
+          "value": "<idp-web-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-dataservice-deployment__Service",
+          "value": "<bi-designer-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-dataservice-deployment__Container",
+          "value": "<bi-designer-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-web-deployment__Service",
+          "value": "<bi-web-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-web-deployment__Container",
+          "value": "<bi-web-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-api-deployment__Service",
+          "value": "<bi-api-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-api-deployment__Container",
+          "value": "<bi-api-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-jobs-deployment__Service",
+          "value": "<bi-jobs-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bi-jobs-deployment__Container",
+          "value": "<bi-jobs-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bold-etl-deployment__Service",
+          "value": "<bold-etl-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bold-etl-deployment__Container",
+          "value": "<bold-etl-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bold-ai-deployment__Service",
+          "value": "<bi-ai-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bold-ai-deployment__Container",
+          "value": "<bi-ai-container-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bold-mcp-deployment__Service",
+          "value": "<boldbi-mcp-server-ecs-service-name>"
+        },
+        {
+          "name": "UpgradeCenter__Ecs__Services__bold-mcp-deployment__Container",
+          "value": "<boldbi-mcp-server-container-name>"
+        },
+        {
+          "name": "BOLD_SERVICES_STORAGETYPE",
+          "value": "3"
+        },
+        {
+          "name": "BOLD_SERVICES_AWS_REGION",
+          "value": "<aws-region>"
+        },
+        {
+          "name": "BOLD_SERVICES_AMAZON_BUCKET_NAME",
+          "value": "<existing-product-bucket>"
+        },
+        {
+          "name": "BOLD_SERVICES_AMAZON_ROOTFOLDER_NAME",
+          "value": "<existing-product-root>"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "BOLD_ADMIN_USERNAME",
+          "valueFrom": "arn:aws:secretsmanager:<aws-region>:<account-id>:secret:<existing-admin-secret-name>:BOLD_ADMIN_USERNAME::"
+        },
+        {
+          "name": "BOLD_ADMIN_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:<aws-region>:<account-id>:secret:<existing-admin-secret-name>:BOLD_ADMIN_PASSWORD::"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "upgrade-center-data",
+          "containerPath": "/app/App_Data",
+          "readOnly": false
+        },
+        {
+          "sourceVolume": "upgrade-center-data",
+          "containerPath": "/app/playwright-shared-state",
+          "readOnly": false
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "<upgrade-center-log-group>",
+          "awslogs-region": "<aws-region>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}

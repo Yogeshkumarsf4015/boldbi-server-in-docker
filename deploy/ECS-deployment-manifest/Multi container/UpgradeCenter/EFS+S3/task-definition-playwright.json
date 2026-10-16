@@ -1,0 +1,61 @@
+{
+  "family": "bold-upgrade-center-playwright",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "cpu": "2048",
+  "memory": "4096",
+  "taskRoleArn": "<playwright-task-role-arn>",
+  "executionRoleArn": "<playwright-execution-role-arn>",
+  "volumes": [
+    {
+      "name": "upgrade-center-data",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "<existing-efs-file-system-id>",
+        "rootDirectory": "/",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "<upgrade-center-efs-access-point-id>",
+          "iam": "ENABLED"
+        }
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "playwright",
+      "image": "<existing-release-playwright-image>",
+      "essential": true,
+      "stopTimeout": 120,
+      "command": [
+        "pre"
+      ],
+      "environment": [
+        {
+          "name": "CI",
+          "value": "true"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "upgrade-center-data",
+          "containerPath": "/app/playwright-shared-state",
+          "readOnly": false
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "<upgrade-center-log-group>",
+          "awslogs-region": "<aws-region>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}

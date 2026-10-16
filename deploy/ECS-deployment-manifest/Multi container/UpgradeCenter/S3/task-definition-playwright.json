@@ -1,0 +1,42 @@
+{
+  "family": "bold-upgrade-center-playwright",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "cpu": "2048",
+  "memory": "4096",
+  "taskRoleArn": "<playwright-task-role-arn>",
+  "executionRoleArn": "<playwright-execution-role-arn>",
+  "volumes": [],
+  "containerDefinitions": [
+    {
+      "name": "playwright",
+      "image": "<existing-release-playwright-image>",
+      "essential": true,
+      "stopTimeout": 120,
+      "command": [
+        "pre"
+      ],
+      "environment": [
+        {
+          "name": "CI",
+          "value": "true"
+        }
+      ],
+      "mountPoints": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "<upgrade-center-log-group>",
+          "awslogs-region": "<aws-region>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
