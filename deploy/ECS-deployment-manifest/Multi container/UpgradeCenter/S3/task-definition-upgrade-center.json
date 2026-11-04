@@ -76,6 +76,14 @@
           "value": "<validation-security-group-id>"
         },
         {
+          "name": "UpgradeCenter__Ecs__AssignPublicIp",
+          "value": "false"
+        },
+        {
+          "name": "UpgradeCenter__Playwright__PassRateThreshold",
+          "value": "50"
+        },
+        {
           "name": "UpgradeCenter__Ecs__UploadBaseUrl",
           "value": "https://<application-domain>/upgrade-center"
         },
