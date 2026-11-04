@@ -1,4 +1,4 @@
-# Bold BI Upgrade Center on AWS ECS (Fargate)
+# Bold BI Upgrade Center on AWS ECS (Fargate) Multi-Container
 
 This guide walks you through deploying Upgrade Center to upgrade your Bold BI multi-container deployment on Amazon ECS Fargate.
 
