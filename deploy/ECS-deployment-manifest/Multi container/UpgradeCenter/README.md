@@ -1,6 +1,6 @@
 # Bold BI Upgrade Center on ECS
 
-The customer-facing guide lives at [docs/ecs-upgrade-guide.md](../../../../docs/ecs-upgrade-guide.md). This folder holds the task definition templates it references.
+The customer-facing guide lives at [docs/ecs-upgrade-guide.md](../../../../docs/ecs-upgrade-guide.md), and the design/specification document lives at [docs/ecs-upgrade-center-multi-container-spec.md](../../../../docs/ecs-upgrade-center-multi-container-spec.md). This folder holds the task definition templates those documents reference.
 
 Pick the subfolder that matches your Bold BI storage:
 
