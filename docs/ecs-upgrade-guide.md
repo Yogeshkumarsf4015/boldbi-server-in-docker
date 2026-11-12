@@ -2,6 +2,8 @@
 
 This guide walks you through deploying Upgrade Center to upgrade your Bold BI multi-container deployment on Amazon ECS Fargate.
 
+For the design-level explanation of how ECS multi-container upgrade support works, see [ECS Upgrade Center Multi-Container Support Specification](ecs-upgrade-center-multi-container-spec.md).
+
 Upgrade Center runs as a separate standalone Fargate service. During an upgrade it does the following in order:
 
 1. Backs up the database tables the release changes.
